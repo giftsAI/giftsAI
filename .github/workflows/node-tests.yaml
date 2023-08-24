@@ -1,0 +1,29 @@
+name: 'back-end-testing'
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - david-server
+jobs:
+  unit testing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node Environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install Dependencies
+        run: npm ci
+        working-directory: ./server
+      - name: Build TS Files
+        run: npm run build
+        working-directory: ./server
+      - name: Start Express server
+        run: npm start
+        working-directory: ./server
+      - name: Run back-end tests
+        run: npm test
+        working-directory: ./server
