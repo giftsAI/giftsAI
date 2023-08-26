@@ -10,18 +10,18 @@ const openai = new OpenAIApi(configuration);
 const generatePrompt = ({
   receiver,
   occasion,
-  like,
+  interest,
   budget,
 }: {
   receiver: string;
   occasion: string;
-  like: string;
+  interest: string;
   budget: string;
-}): string => `Suggest five gifts considering the receiver relationship, occasion, their like and budget below. Only respond with the five gift names, and separate by semicolons. For example, Chess Set; Chess Clock; Chess Book.
+}): string => `Suggest five gifts considering the receiver relationship, occasion, their interest and budget below. Only respond with the five gift names, and separate by semicolons. For example, Chess Set; Chess Clock; Chess Book.
 
 receiver relationship: ${receiver}
 occasion: ${occasion}
-their like: ${like}
+their interest: ${interest}
 budget: ${budget}`;
 
 const getGiftRecommendations = async (
