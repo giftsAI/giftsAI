@@ -1,6 +1,28 @@
+'use client'
+
 import Image from 'next/image';
+import { useState } from 'react';
+import Recommendations from './recommendations';
 
 export default function Home(): JSX.Element {
+  const [recommendedGifts, setRecommendedGifts] = useState<any[]>([]);
+  const handleClick = async () : Promise<void> => {
+      const res: Response = await fetch('http://localhost:3500/gift/recommend', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        body: JSON.stringify({
+          'receiver': 'wife',
+          'occasion': 'birthday',
+          'like': 'cooking',
+          'budget': '<$200'
+        })
+      }
+      });
+      const giftsArr = await res.json();
+      setRecommendedGifts(giftsArr);
+
+  }
   return (
     <main className="flex min-h-screen flex-col items-center p-24 space-y-40">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
@@ -79,6 +101,10 @@ export default function Home(): JSX.Element {
           </p>
         </a>
       </div>
+      <div>
+        <button onClick={handleClick}>Submit</button>
+      </div>
+      <Recommendations recommendedGifts={recommendedGifts}/>
     </main>
   );
 }
