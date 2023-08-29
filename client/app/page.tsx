@@ -21,9 +21,6 @@ export default function Home(): JSX.Element {
             />
           </a>
         </div>
-        {/* <button className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200">
-          Create Account
-        </button> */}
         <Link
           className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200"
           href="/create-account"
@@ -42,9 +39,6 @@ export default function Home(): JSX.Element {
             placeholder="friend, spouse, etc."
             className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30 transition-colors focus:outline-none focus:border-gray-500"
           ></input>
-          {/* <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Tips for recipient
-          </p> */}
         </div>
 
         <div
@@ -53,12 +47,9 @@ export default function Home(): JSX.Element {
         >
           <h2 className={`mb-3 text-2xl font-semibold`}>Occasion </h2>
           <input
-            placeholder="birthday, graduation, etc."
+            placeholder="birthday, holidays, etc."
             className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30 transition-colors focus:outline-none focus:border-gray-500"
           ></input>
-          {/* <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Tips for occasion
-          </p> */}
         </div>
 
         <div
@@ -70,9 +61,6 @@ export default function Home(): JSX.Element {
             placeholder="hobbies, activities, etc."
             className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30  transition-colors focus:outline-none focus:border-gray-500"
           ></input>
-          {/* <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Tips for interests
-          </p> */}
         </div>
 
         <div
@@ -84,13 +72,10 @@ export default function Home(): JSX.Element {
             placeholder="$10, $50, $100, etc."
             className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30  transition-colors focus:outline-none focus:border-gray-500"
           ></input>
-          {/* <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Tips for budget
-          </p> */}
         </div>
       </div>
 
-      <button className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200">
+      <button className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-80 lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200">
         Give me ideas
       </button>
     </main>
