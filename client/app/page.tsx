@@ -3,15 +3,18 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import Recommendations from './recommendations';
+import LoadingSpinner from './loadingSpinner';
 
 
 export default function Home(): JSX.Element {
   const [recommendedGifts, setRecommendedGifts] = useState<string[]>([]);
   const [giftsImages, setGiftImages] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // form submission, submitting user's inputs and fetching gift recommendations from the server
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) : Promise<void> => {
     event.preventDefault();
+    setLoading(true);
     const target = event.currentTarget;
     const data = {
       receiver: target.receiver.value,
@@ -29,9 +32,9 @@ export default function Home(): JSX.Element {
     const giftsInfo = await res.json();
     const giftsArr: string[] = giftsInfo.recommendations;
     const imagesArr: string[] = giftsInfo.images;
-
     setRecommendedGifts(giftsArr);
     setGiftImages(imagesArr);
+    setLoading(false);
   }
   return (
     <main className="flex min-h-screen flex-col items-center p-24 space-y-40">
@@ -120,7 +123,10 @@ export default function Home(): JSX.Element {
           Give me ideas
         </button>
       </form>
-      <Recommendations recommendedGifts={recommendedGifts} giftImages={giftsImages} />
+      {
+        loading? <LoadingSpinner />
+        : <Recommendations recommendedGifts={recommendedGifts} giftImages={giftsImages} setLoading={setLoading}/>
+      }
     </main>
   );
 }

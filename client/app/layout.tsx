@@ -16,7 +16,7 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en">
-        <body className={openSans.className}>{children}</body>
+      <body className={openSans.className}>{children}</body>
     </html>
   );
 }
