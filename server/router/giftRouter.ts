@@ -1,14 +1,18 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
-import getGiftRecommendations from '../controllers/openAIController';
+import {
+  getGiftRecommendations,
+  generateImages,
+} from '../controllers/openAIController';
 
 const giftRouter = Router();
 
 giftRouter.post(
   '/recommend',
   getGiftRecommendations,
+  generateImages,
   (req: Request, res: Response) => {
-    res.status(200).json(res.locals.recommendations);
+    res.status(200).json(res.locals);
   }
 );
 

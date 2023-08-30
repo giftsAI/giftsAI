@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import getGiftRecommendations from '../controllers/openAIController';
+import { getGiftRecommendations } from '../controllers/openAIController';
 
 describe('Test getGiftRecommendations middleware', () => {
   it('should return five gift recommendations', async () => {
@@ -25,5 +25,5 @@ describe('Test getGiftRecommendations middleware', () => {
     expect(
       res.locals.recommendations.every((rec) => typeof rec === 'string')
     ).toEqual(true);
-  });
+  }, 10000);
 });
