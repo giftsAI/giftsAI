@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import Recommendations from './recommendations';
-import LoadingSpinner from './loadingSpinner';
+import Recommendations from './_components/recommendations';
+import LoadingSpinner from './_components/loadingSpinner';
 
 
 export default function Home(): JSX.Element {
@@ -15,23 +15,25 @@ export default function Home(): JSX.Element {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) : Promise<void> => {
     event.preventDefault();
     setLoading(true);
-    const target = event.currentTarget;
-    const data = {
-      receiver: target.receiver.value,
-      occasion: target.occasion.value,
-      interest: target.interest.value,
-      budget: target.budget.value
-    };
-    const res: Response = await fetch('http://localhost:3500/gift/recommend', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data)
-    });
-    const giftsInfo = await res.json();
-    const giftsArr: string[] = giftsInfo.recommendations;
-    const imagesArr: string[] = giftsInfo.images;
+    // const target = event.currentTarget;
+    // const data = {
+    //   receiver: target.receiver.value,
+    //   occasion: target.occasion.value,
+    //   interest: target.interest.value,
+    //   budget: target.budget.value
+    // };
+    // const res: Response = await fetch('http://localhost:3500/gift/recommend', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(data)
+    // });
+    // const giftsInfo = await res.json();
+    // const giftsArr: string[] = giftsInfo.recommendations;
+    // const imagesArr: string[] = giftsInfo.images;
+    const imagesArr: string[] = [];
+    const giftsArr = ['candle', 'wine', 'perfume', 'keychain', 'chocolate'];
     setRecommendedGifts(giftsArr);
     setGiftImages(imagesArr);
     setLoading(false);
