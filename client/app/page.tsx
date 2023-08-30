@@ -4,8 +4,8 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 import Link from 'next/link';
-import Recommendations from './recommendations';
-import LoadingSpinner from './loadingSpinner';
+import Recommendations from './components/recommendations';
+import LoadingSpinner from './components/loadingSpinner';
 
 export default function Home(): JSX.Element {
   const [recommendedGifts, setRecommendedGifts] = useState<string[]>([]);
