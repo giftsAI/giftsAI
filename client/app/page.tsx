@@ -1,10 +1,11 @@
-'use client'
+'use client';
 
 import Image from 'next/image';
 import { useState } from 'react';
-import Recommendations from './_components/recommendations';
-import LoadingSpinner from './_components/loadingSpinner';
 
+import Link from 'next/link';
+import Recommendations from './recommendations';
+import LoadingSpinner from './loadingSpinner';
 
 export default function Home(): JSX.Element {
   const [recommendedGifts, setRecommendedGifts] = useState<string[]>([]);
@@ -12,7 +13,9 @@ export default function Home(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
 
   // form submission, submitting user's inputs and fetching gift recommendations from the server
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) : Promise<void> => {
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
     setLoading(true);
     // const target = event.currentTarget;
@@ -37,7 +40,7 @@ export default function Home(): JSX.Element {
     setRecommendedGifts(giftsArr);
     setGiftImages(imagesArr);
     setLoading(false);
-  }
+  };
   return (
     <main className="flex min-h-screen flex-col items-center p-24 space-y-40">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
@@ -57,78 +60,65 @@ export default function Home(): JSX.Element {
             />
           </a>
         </div>
-        <button className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200">
-          Log In
-        </button>
-        {/* <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Log In
-        </p> */}
+        <Link
+          className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200"
+          href="/create-account"
+        >
+          Create Account
+        </Link>
       </div>
 
-      <form onSubmit={handleSubmit} className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <div
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors"
-        >
+      <form
+        onSubmit={handleSubmit}
+        className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left"
+      >
+        <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors">
           <h2 className={`mb-3 text-2xl font-semibold`}>Who</h2>
           <input
             id="receiver"
             placeholder="friend, spouse, etc."
             className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30 transition-colors focus:outline-none focus:border-gray-500"
           ></input>
-          {/* <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Tips for recipient
-          </p> */}
         </div>
 
-        <div
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors"
-        >
+        <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors">
           <h2 className={`mb-3 text-2xl font-semibold`}>Occasion</h2>
           <input
             id="occasion"
-            placeholder="birthday, graduation, etc."
+            placeholder="birthday, holidays, etc."
             className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30 transition-colors focus:outline-none focus:border-gray-500"
-          />
-          {/* <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Tips for occasion
-          </p> */}
+          ></input>
         </div>
 
-        <div
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors"
-        >
+        <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors">
           <h2 className={`mb-3 text-2xl font-semibold`}>Interests</h2>
           <input
             id="interest"
             placeholder="hobbies, activities, etc."
             className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30  transition-colors focus:outline-none focus:border-gray-500"
-          />
-          {/* <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Tips for interests
-          </p> */}
+          ></input>
         </div>
 
-        <div
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors"
-        >
+        <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors">
           <h2 className={`mb-3 text-2xl font-semibold`}>Budget</h2>
           <input
             id="budget"
             placeholder="$10, $50, $100, etc."
             className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30  transition-colors focus:outline-none focus:border-gray-500"
-          />
-          {/* <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Tips for budget
-          </p> */}
+          ></input>
         </div>
         <button className="border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200">
           Give me ideas
         </button>
       </form>
-      {
-        loading? <LoadingSpinner />
-        : <Recommendations recommendedGifts={recommendedGifts} giftImages={giftsImages}/>
-      }
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <Recommendations
+          recommendedGifts={recommendedGifts}
+          giftImages={giftsImages}
+        />
+      )}
     </main>
   );
 }
