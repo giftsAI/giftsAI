@@ -9,7 +9,7 @@ import type {
 import cors from 'cors';
 import giftRouter from './router/giftRouter';
 
-const PORT: number = 3000;
+const PORT: number = 3500;
 const app: Express = express();
 
 app.use(cors());
