@@ -40,7 +40,7 @@ export default function Home(): JSX.Element {
     setLoading(false);
   };
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 space-y-40">
+    <main className="flex min-h-screen flex-col items-center p-24 space-y-40">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none space-y-40">
           <a
@@ -66,11 +66,8 @@ export default function Home(): JSX.Element {
         </Link>
       </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="flex gap-10 mb-32 grid text-center lg:max-w-5xl lg:w-auto lg:mb-0 lg:text-left"
-      >
-        <div className="flex w-auto justify-center">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+        <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
           <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors">
             <h2 className={`mb-3 text-2xl font-semibold`}>Who</h2>
             <input
@@ -107,7 +104,7 @@ export default function Home(): JSX.Element {
             ></input>
           </div>
         </div>
-        <button className="mx-auto border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-64 lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200 md:w-full sm:w-full">
+        <button className="mx-auto border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-64 lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200">
           Give me ideas
         </button>
       </form>
