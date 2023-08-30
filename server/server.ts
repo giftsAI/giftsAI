@@ -8,8 +8,9 @@ import type {
 } from 'express';
 import cors from 'cors';
 import giftRouter from './router/giftRouter';
+import userRouter from './router/userRouter';
 
-const PORT: number = 3000;
+const PORT: number = 3500;
 const app: Express = express();
 
 app.use(cors());
@@ -17,6 +18,7 @@ app.use(express.json());
 
 // Route for gift recommendation (interact with AI)
 app.use('/gift', giftRouter);
+app.use('/user', userRouter);
 
 // Interface for error
 interface errorObj {
