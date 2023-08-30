@@ -125,7 +125,7 @@ export default function Home(): JSX.Element {
       </form>
       {
         loading? <LoadingSpinner />
-        : <Recommendations recommendedGifts={recommendedGifts} giftImages={giftsImages} setLoading={setLoading}/>
+        : <Recommendations recommendedGifts={recommendedGifts} giftImages={giftsImages}/>
       }
     </main>
   );

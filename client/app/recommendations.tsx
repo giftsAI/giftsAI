@@ -13,7 +13,7 @@ export default function Recommendations(props: {
         { giftIdeas.map((gift: string, index: number) : JSX.Element =>
           <div className="p-4 m-2 w-3/5 border rounded-lg flex justify-between items-center justify-center" key={gift + index.toString()}>
             <dt>
-              <Image alt="gift image" src={props.giftImages[index]} width={250} height={250}/>
+              <Image alt="gift image" src={props.giftImages[index]} width={256} height={256}/>
             </dt>
             <dd>
               {gift}
