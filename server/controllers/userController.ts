@@ -1,5 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 import database from '../db/giftsDatabase';
 
 const SALT_WORK_FACTOR = 10;
@@ -111,4 +113,48 @@ export const loginUser = async (
     });
   }
   return next();
+};
+
+// Generate a JWT after user successful sign in
+export const generateJWT = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  const token = jwt.sign(
+    { email: req.body.email },
+    process.env.JWT_SECRET as string,
+    {
+      expiresIn: '1h',
+    }
+  );
+  res.locals.token = token;
+  return next();
+};
+
+// Verify the JWT in the cookie
+export const verifyJWT = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  const token = req.cookies.access_token;
+  if (!token) {
+    return next({
+      log: 'User is not authorized to access. No JWT access token provided in the cookies.',
+      status: 403,
+      message: 'Not authorized',
+    });
+  }
+  try {
+    const payload = jwt.verify(token, process.env.SECRET_KEY as string);
+    res.locals.email = (payload as jwt.JwtPayload).email;
+    return next();
+  } catch (err) {
+    return next({
+      log: `User is not authorized to access since JWT canot be verified. ${err}.`,
+      status: 403,
+      message: 'Not authorized',
+    });
+  }
 };
