@@ -90,19 +90,26 @@ export const loginUser = async (
 
     // If user does not exist in database, then move on to next middleware function
     if (!data.rows[0]) {
-      res.locals.signIn = false;
-      return next();
+      next({
+        log: 'Error in loginUser middleware: verifying the user in the database',
+        status: 403,
+        message: 'This user does not exist in the system',
+      });
     }
 
     // If user exists in database, verify the input password
     const matchedPW = await bcrypt.compare(password, data.rows[0].password);
-
     if (matchedPW) {
       res.locals.signIn = true;
       res.locals.email = data.rows[0].email;
+      return next();
     }
     // if password does not match, sign in is
-    else res.locals.signin = false;
+    return next({
+      log: 'Error in loginUser middleware: verifying the user in the database',
+      status: 403,
+      message: 'Password does not match',
+    });
   } catch (error) {
     return next({
       log: 'Error in loginUser middleware: verifying the user in the database',
@@ -110,5 +117,4 @@ export const loginUser = async (
       message: 'error when trying to log-in the user',
     });
   }
-  return next();
 };
