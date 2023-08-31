@@ -25,7 +25,7 @@ function CreateAccountForm(): JSX.Element {
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     try {
-      const response = await fetch('/user/signup', {
+      const response = await fetch('http://localhost:3500/user/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

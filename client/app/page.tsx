@@ -4,8 +4,8 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 import Link from 'next/link';
-import Recommendations from './components/recommendations';
-import LoadingSpinner from './components/loadingSpinner';
+import Recommendations from './_components/recommendations';
+import LoadingSpinner from './_components/loadingSpinner';
 
 export default function Home(): JSX.Element {
   const [recommendedGifts, setRecommendedGifts] = useState<string[]>([]);
@@ -58,12 +58,20 @@ export default function Home(): JSX.Element {
             />
           </a>
         </div>
-        <Link
-          className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200"
-          href="/create-account"
-        >
-          Create Account
-        </Link>
+        <div className="flex gap-2">
+          <Link
+            className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-white lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-transparent hover:bg-white hover:bg-opacity-10"
+            href="/create-account"
+          >
+            Create Account
+          </Link>
+          <Link
+            className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200"
+            href="/log-in"
+          >
+            Log In
+          </Link>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-8">
