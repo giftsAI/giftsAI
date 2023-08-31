@@ -16,7 +16,9 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en">
-      <body className={openSans.className}>{children}</body>
+      <body className={`${openSans.className} flex flex-col items-center p-24`}>
+        {children}
+      </body>
     </html>
   );
 }
