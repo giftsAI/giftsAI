@@ -31,8 +31,14 @@ function LoginForm(): JSX.Element {
       });
 
       if (response.status === 200) {
-        console.log('successful response');
-        setSubmissionStatus('Success');
+        try {
+          console.log('success');
+          const userData = await response.json();
+          localStorage.setItem('userData', JSON.stringify(userData));
+          setSubmissionStatus('Success');
+        } catch (error) {
+          setSubmissionStatus('Error');
+        }
       } else if (response.status === 403) {
         setSubmissionStatus('Error');
       }
@@ -70,6 +76,7 @@ function LoginForm(): JSX.Element {
         <div className="w-auto">
           <h2 className={`mb-3 text-2xl font-semibold`}>Password</h2>
           <input
+            type="password"
             placeholder="Enter password"
             className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-80  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30 transition-colors focus:outline-none focus:border-gray-500"
             value={userLogin.password}

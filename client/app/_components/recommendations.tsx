@@ -1,14 +1,24 @@
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import basketballSockImage from '../basketball-socks.png';
 
 export default function Recommendations(props: {
+  userData: string;
   recommendedGifts: string[];
   giftImages: string[];
 }): JSX.Element {
   const giftIdeas: string[] = props.recommendedGifts;
-
+  const router = useRouter();
   function handleClick(giftTitle: string): void {
     window.open(`https://www.amazon.com/s?k=${giftTitle.split(' ').join('+')}`);
+  }
+
+  function handleSave(): void {
+    if (props.userData) {
+      router.push('/dashboard');
+    } else {
+      router.push('/log-in');
+    }
   }
 
   return (
@@ -51,7 +61,10 @@ export default function Recommendations(props: {
         )}
       </dl>
       {giftIdeas[0] ? (
-        <button className="border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-64 lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200">
+        <button
+          onClick={handleSave}
+          className="border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-64 lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200"
+        >
           Save Items
         </button>
       ) : (
