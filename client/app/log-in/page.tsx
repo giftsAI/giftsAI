@@ -14,7 +14,7 @@ function LoginForm(): JSX.Element {
     password: '',
   });
 
-  const [submissionStatus, setSubmissionStatus] = useState<boolean>(false);
+  const [submissionStatus, setSubmissionStatus] = useState<string>('');
 
   const router = useRouter();
 
@@ -32,16 +32,20 @@ function LoginForm(): JSX.Element {
 
       if (response.status === 200) {
         console.log('successful response');
-        setSubmissionStatus(true);
+        setSubmissionStatus('Success');
+      } else if (response.status === 403) {
+        setSubmissionStatus('Error');
       }
     } catch (error) {
-      router.push('/error-page');
+      setSubmissionStatus('Error');
     }
   };
 
   useEffect(() => {
-    if (submissionStatus) {
+    if (submissionStatus === 'Success') {
       router.push('/dashboard');
+    } else if (submissionStatus === 'Error') {
+      router.push('/error-page');
     }
   });
 
