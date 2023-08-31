@@ -18,6 +18,7 @@ function Dashboard(): JSX.Element {
   const [giftList, setGiftList] = useState<Gift[]>([]);
   const [filteredList, setFilteredList] = useState<Gift[]>([]);
   useEffect(() => {
+    // implement fetching gift data from database
     setGiftList([{
       gift_id: 1,
       gifter_id: 2,
@@ -65,6 +66,10 @@ function Dashboard(): JSX.Element {
     ));
   };
 
+  const deleteGift = async (giftId: number) : Promise<void> => {
+    // delete from database
+  };
+
   return (
     <main className="flex flex-col place-items-center justify-center lg:max-w-5xl lg:w-full lg:mb-0">
       <h2 className="mb-3 text-2xl font-semibold">Past Gifts:</h2>
@@ -79,13 +84,13 @@ function Dashboard(): JSX.Element {
           <table className="m-0 w-full">
             <thead className="h-24 text-xl opacity-50">
               <tr>
-                <th className="w-[14%]">Name</th>
-                <th className="w-[14%]">Relationship</th>
-                <th className="w-[14%]">Occasion</th>
-                <th className="w-[14%]">Interest</th>
-                <th className="w-[14%]">Budget</th>
-                <th className="w-[14%]">Gift</th>
-                <th className="w-[14%]">Date</th>
+                <th className="w-[12%]">Name</th>
+                <th className="w-[12%]">Relationship</th>
+                <th className="w-[12%]">Occasion</th>
+                <th className="w-[12%]">Interest</th>
+                <th className="w-[12%]">Budget</th>
+                <th className="w-[12%]">Gift</th>
+                <th className="w-[12%]">Date</th>
               </tr>
             </thead>
             <tbody>
@@ -99,6 +104,21 @@ function Dashboard(): JSX.Element {
                     <th>{gift.budget}</th>
                     <th>{gift.gift}</th>
                     <th>{gift.date}</th>
+                    <th>
+                      <button onClick={async () : Promise<void> => deleteGift(gift.gift_id)}>
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          fill="none" viewBox="0 0 24 24" 
+                          strokeWidth={1.5} 
+                          stroke="currentColor" 
+                          className="w-6 h-6 hover:text-red-600"
+                        >
+                          <path strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </th>
                   </tr>
                 ))
               }
