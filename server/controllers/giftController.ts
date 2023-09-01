@@ -12,9 +12,8 @@ export const getGifts = async (
 
   // join table query to get saved gift results based on user-id
   const query = `
-  SELECT users.user_id, gifts.gift_id, gifts.receiver, gifts.receiver_name, gifts.occasion, gifts.date, gifts.interest, gifts.budget, gifts.gift, gifts.gifter_id
-  FROM users
-  RIGHT JOIN gifts on users.user_id = gifts.gifter_id
+  SELECT *
+  FROM gifts
   WHERE "gifter_id" = $1 
   ORDER BY date desc`;
 
