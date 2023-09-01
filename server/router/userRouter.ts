@@ -1,29 +1,74 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
 import {
+  getGifts,
+  storeGift,
+  updateGift,
+  deleteGift,
+} from '../controllers/giftController';
+import {
   createUser,
   loginUser,
   generateJWT,
+  verifyJWT,
 } from '../controllers/userController';
 
 const userRouter = Router();
 
-userRouter.post('/signup', createUser, (req: Request, res: Response) => {
-  res.status(200).json(res.locals.email);
-});
+userRouter.post(
+  '/signup',
+  createUser,
+  generateJWT,
+  (req: Request, res: Response) => {
+    console.log(res.locals.user);
+    res.status(200).json(res.locals.user);
+  }
+);
 
 userRouter.post(
   '/signin',
   loginUser,
   generateJWT,
   (req: Request, res: Response) => {
+    console.log(res.locals.user);
     res
       .cookie('access_token', res.locals.token, {
         httpOnly: true,
         maxAge: 1000 * 60 * 60,
       })
       .status(200)
-      .json(res.locals.email);
+      .json(res.locals.user);
+  }
+);
+
+userRouter.get('/gifts', verifyJWT, getGifts, (req: Request, res: Response) => {
+  res.status(200).json(res.locals.gifts);
+});
+
+userRouter.post(
+  '/storegifts',
+  verifyJWT,
+  storeGift,
+  (req: Request, res: Response) => {
+    res.status(200).json(res.locals.gift);
+  }
+);
+
+userRouter.patch(
+  '/updategift',
+  verifyJWT,
+  updateGift,
+  (req: Request, res: Response) => {
+    res.status(200).json(res.locals.updated);
+  }
+);
+
+userRouter.delete(
+  '/deletegift',
+  verifyJWT,
+  deleteGift,
+  (req: Request, res: Response) => {
+    res.status(200).json(res.locals.deleted);
   }
 );
 

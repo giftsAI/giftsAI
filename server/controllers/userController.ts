@@ -56,7 +56,7 @@ export const createUser = async (
     // Save user information in database
     const params = [firstName, lastName, email, hashPassword];
     const data = await database.query(querySignup, params);
-    console.log(data);
+    res.locals.user = data.rows;
     return next();
   } catch (error: any) {
     return next({
@@ -92,19 +92,26 @@ export const loginUser = async (
 
     // If user does not exist in database, then move on to next middleware function
     if (!data.rows[0]) {
-      res.locals.signIn = false;
-      return next();
+      next({
+        log: 'Error in loginUser middleware: verifying the user in the database',
+        status: 403,
+        message: 'This user does not exist in the system',
+      });
     }
 
     // If user exists in database, verify the input password
     const matchedPW = await bcrypt.compare(password, data.rows[0].password);
-
     if (matchedPW) {
       res.locals.signIn = true;
-      res.locals.email = data.rows[0].email;
+      res.locals.user = data.rows;
+      return next();
     }
     // if password does not match, sign in is
-    else res.locals.signin = false;
+    return next({
+      log: 'Error in loginUser middleware: verifying the user in the database',
+      status: 403,
+      message: 'Password does not match',
+    });
   } catch (error) {
     return next({
       log: 'Error in loginUser middleware: verifying the user in the database',
@@ -112,7 +119,6 @@ export const loginUser = async (
       message: 'error when trying to log-in the user',
     });
   }
-  return next();
 };
 
 // Generate a JWT after user successful sign in
@@ -122,7 +128,7 @@ export const generateJWT = (
   next: NextFunction
 ): void => {
   const token = jwt.sign(
-    { email: req.body.email },
+    { userId: res.locals.user_id },
     process.env.JWT_SECRET as string,
     {
       expiresIn: '1h',
@@ -148,7 +154,13 @@ export const verifyJWT = (
   }
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET as string);
-    res.locals.email = (payload as jwt.JwtPayload).email;
+    const { userId } = payload as jwt.JwtPayload;
+
+    console.log(userId, JSON.stringify(payload), token);
+
+    if (req.body.id !== userId && req.body.gifterId !== userId) {
+      throw new Error('Id in JWT and http body do not match.');
+    }
     return next();
   } catch (err) {
     return next({
