@@ -21,7 +21,13 @@ userRouter.post(
   generateJWT,
   (req: Request, res: Response) => {
     console.log(res.locals.user);
-    res.status(200).json(res.locals.user);
+    res
+      .cookie('access_token', res.locals.token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60,
+      })
+      .status(200)
+      .json(res.locals.user);
   }
 );
 

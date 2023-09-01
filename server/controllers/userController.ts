@@ -128,7 +128,7 @@ export const generateJWT = (
   next: NextFunction
 ): void => {
   const token = jwt.sign(
-    { userId: res.locals.user_id },
+    { userId: res.locals.user[0].user_id },
     process.env.JWT_SECRET as string,
     {
       expiresIn: '1h',
@@ -155,8 +155,6 @@ export const verifyJWT = (
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET as string);
     const { userId } = payload as jwt.JwtPayload;
-
-    console.log(userId, JSON.stringify(payload), token);
 
     if (req.body.id !== userId && req.body.gifterId !== userId) {
       throw new Error('Id in JWT and http body do not match.');
