@@ -54,7 +54,7 @@ export const createUser = async (
     // Save user information in database
     const params = [firstName, lastName, email, hashPassword];
     const data = await database.query(querySignup, params);
-    console.log(data);
+    res.locals.user = data.rows;
     return next();
   } catch (error: any) {
     return next({
@@ -101,7 +101,7 @@ export const loginUser = async (
     const matchedPW = await bcrypt.compare(password, data.rows[0].password);
     if (matchedPW) {
       res.locals.signIn = true;
-      res.locals.email = data.rows[0].email;
+      res.locals.user = data.rows;
       return next();
     }
     // if password does not match, sign in is
