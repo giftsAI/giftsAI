@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import basketballSockImage from '../basketball-socks.png';
 
 export default function Recommendations(props: {
@@ -9,12 +10,15 @@ export default function Recommendations(props: {
 }): JSX.Element {
   const giftIdeas: string[] = props.recommendedGifts;
   const router = useRouter();
+  const [selectedGift, setSelectedGift] = useState<string | null>(null);
   function handleClick(giftTitle: string): void {
     window.open(`https://www.amazon.com/s?k=${giftTitle.split(' ').join('+')}`);
   }
 
   function handleSave(): void {
-    if (props.userData) {
+    if (props.userData && selectedGift) {
+      router.push('/confirmation');
+    } else if (props.userData) {
       router.push('/dashboard');
     } else {
       router.push('/log-in');
@@ -37,6 +41,13 @@ export default function Recommendations(props: {
               className="p-4 m-2 w-3/5 border rounded-lg flex justify-between items-center justify-center"
               key={gift + index.toString()}
             >
+              <input
+                type="radio"
+                id={`radio${index}`}
+                name="giftListItem"
+                value={gift}
+                onChange={() => setSelectedGift(gift)}
+              ></input>
               <dt>
                 {/* Original code, using hard coded image below
                 <Image alt="gift image" src={props.giftImages[index]} width={256} height={256}/> */}
