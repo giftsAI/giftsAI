@@ -11,12 +11,10 @@ import { createUser, loginUser } from '../controllers/userController';
 const userRouter = Router();
 
 userRouter.post('/signup', createUser, (req: Request, res: Response) => {
-  console.log(res.locals.user);
   res.status(200).json(res.locals.user);
 });
 
 userRouter.post('/signin', loginUser, (req: Request, res: Response) => {
-  console.log(res.locals.user);
   res.status(200).json(res.locals.user);
 });
 

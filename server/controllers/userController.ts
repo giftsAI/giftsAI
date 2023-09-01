@@ -26,10 +26,14 @@ export const createUser = async (
 
     const login = [email];
     const data = await database.query(queryLogin, login);
-
+    console.log(data);
     if (data.rows[0]) {
-      res.locals.createdUser = false;
-      return next();
+      return next({
+        log: 'Error in userController.createUser: not given all necessary inputs',
+        status: 403,
+        message:
+          'This user already exists in the system - please use another email address to complete your sign-up',
+      });
     }
   } catch (error: any) {
     return next({
@@ -49,11 +53,12 @@ export const createUser = async (
     // Password hashing with bcrypt
     const hashPassword = await bcrypt.hash(password, SALT_WORK_FACTOR);
 
-    console.log(hashPassword);
-
     // Save user information in database
     const params = [firstName, lastName, email, hashPassword];
     const data = await database.query(querySignup, params);
+
+    // Remove password from user object prior to sending response
+    delete data.rows[0].password;
     res.locals.user = data.rows;
     return next();
   } catch (error: any) {
@@ -101,6 +106,9 @@ export const loginUser = async (
     const matchedPW = await bcrypt.compare(password, data.rows[0].password);
     if (matchedPW) {
       res.locals.signIn = true;
+
+      // Remove password from user object prior to sending response
+      delete data.rows[0].password;
       res.locals.user = data.rows;
       return next();
     }
