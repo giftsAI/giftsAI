@@ -20,7 +20,7 @@ userRouter.post(
     res
       .cookie('access_token', res.locals.token, {
         httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 3,
+        maxAge: 1000 * 60 * 60,
       })
       .status(200)
       .json(res.locals.email);

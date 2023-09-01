@@ -147,7 +147,7 @@ export const verifyJWT = (
     });
   }
   try {
-    const payload = jwt.verify(token, process.env.SECRET_KEY as string);
+    const payload = jwt.verify(token, process.env.JWT_SECRET as string);
     res.locals.email = (payload as jwt.JwtPayload).email;
     return next();
   } catch (err) {
