@@ -3,17 +3,13 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-function CreateAccountForm(): JSX.Element {
-  interface UserData {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-  }
+interface UserLogin {
+  email: string;
+  password: string;
+}
 
-  const [user, setUser] = useState<UserData>({
-    firstName: '',
-    lastName: '',
+function LoginForm(): JSX.Element {
+  const [userLogin, setUserLogin] = useState<UserLogin>({
     email: '',
     password: '',
   });
@@ -24,23 +20,29 @@ function CreateAccountForm(): JSX.Element {
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
+
     try {
-      const response = await fetch('http://localhost:3500/user/signup', {
+      const response = await fetch('http://localhost:3500/user/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify(userLogin),
       });
 
       if (response.status === 200) {
-        console.log('successful response');
-        setSubmissionStatus('Success');
-      } else {
+        try {
+          console.log('success');
+          const userData = await response.json();
+          localStorage.setItem('userData', JSON.stringify(userData));
+          setSubmissionStatus('Success');
+        } catch (error) {
+          setSubmissionStatus('Error');
+        }
+      } else if (response.status === 403) {
         setSubmissionStatus('Error');
       }
     } catch (error) {
-      console.log(error);
       setSubmissionStatus('Error');
     }
   };
@@ -51,7 +53,7 @@ function CreateAccountForm(): JSX.Element {
     } else if (submissionStatus === 'Error') {
       router.push('/error-page');
     }
-  }, [submissionStatus, router]);
+  });
 
   return (
     <div className="container mx-auto px-4">
@@ -60,42 +62,27 @@ function CreateAccountForm(): JSX.Element {
         className="flex flex-col gap-10 items-center justify-center min-h-screen"
       >
         <div className="w-auto">
-          <h2 className={`mb-3 text-2xl font-semibold`}>First Name</h2>
-          <input
-            placeholder="Enter first name"
-            className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-80  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30 transition-colors focus:outline-none focus:border-gray-500"
-            value={user.firstName}
-            onChange={(e) => setUser({ ...user, firstName: e.target.value })}
-          ></input>
-        </div>
-
-        <div className="w-auto">
-          <h2 className={`mb-3 text-2xl font-semibold`}>Last Name</h2>
-          <input
-            placeholder="Enter last name"
-            className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-80  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30 transition-colors focus:outline-none focus:border-gray-500"
-            value={user.lastName}
-            onChange={(e) => setUser({ ...user, lastName: e.target.value })}
-          ></input>
-        </div>
-
-        <div className="w-auto">
           <h2 className={`mb-3 text-2xl font-semibold`}>Email</h2>
           <input
             placeholder="Enter email"
             className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-80  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30 transition-colors focus:outline-none focus:border-gray-500"
-            value={user.email}
-            onChange={(e) => setUser({ ...user, email: e.target.value })}
+            value={userLogin.email}
+            onChange={(e) =>
+              setUserLogin({ ...userLogin, email: e.target.value })
+            }
           ></input>
         </div>
 
         <div className="w-auto">
           <h2 className={`mb-3 text-2xl font-semibold`}>Password</h2>
           <input
+            type="password"
             placeholder="Enter password"
             className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-80  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30 transition-colors focus:outline-none focus:border-gray-500"
-            value={user.password}
-            onChange={(e) => setUser({ ...user, password: e.target.value })}
+            value={userLogin.password}
+            onChange={(e) =>
+              setUserLogin({ ...userLogin, password: e.target.value })
+            }
           ></input>
         </div>
 
@@ -104,7 +91,7 @@ function CreateAccountForm(): JSX.Element {
             type="submit"
             className="w-full fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-80 lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200"
           >
-            Create Account
+            Log In
           </button>
         </div>
       </form>
@@ -112,4 +99,4 @@ function CreateAccountForm(): JSX.Element {
   );
 }
 
-export default CreateAccountForm;
+export default LoginForm;
