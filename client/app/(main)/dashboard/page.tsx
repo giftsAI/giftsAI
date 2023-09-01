@@ -1,5 +1,5 @@
 function Dashboard(): JSX.Element {
-  return <div className="flex min-h-screen flex-col items-center space-y-20">Dashboard page</div>;
+  return <div className="text-center lg:w-full lg:mb-0">Dashboard page</div>;
 }
 
 export default Dashboard;

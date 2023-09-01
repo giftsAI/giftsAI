@@ -1,27 +1,33 @@
 'use client'
 
-import Image from "next/image";
-import Link from "next/link";
-import { useState, useEffect } from "react";
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState, useEffect, createContext} from 'react';
 
-export default function RootLayout({
+export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }): JSX.Element {
   const [userData, setUserData] = useState<string>('');
+  const value : {
+    userData: string,
+    setUserData: (val: string) => void,
+  } = { userData, setUserData };
+  const UserContext = createContext(value);
 
   useEffect(() => {
-    const storedUserData = localStorage.getItem('userData');
+    const storedUserData: string | null = localStorage.getItem('userData');
     if (storedUserData) {
-      const parsedUserData = JSON.parse(storedUserData);
+      const parsedUserData: string = JSON.parse(storedUserData);
       setUserData(parsedUserData);
     }
+    console.log(storedUserData);
   }, []);
 
   return (
-    <main>
-      <header className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex pb-24">
+    <main className="lg:max-w-5xl lg:w-full lg:mb-0">
+      <header className="z-10 w-full items-center justify-between font-mono text-sm lg:flex pb-24">
         <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none space-y-40">
           <a
             className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
@@ -60,7 +66,9 @@ export default function RootLayout({
           </div>
         )}
       </header>
-      {children}
+      <UserContext.Provider value={value}>
+        {children}
+      </UserContext.Provider>
     </main>
   );
 }
