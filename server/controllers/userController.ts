@@ -139,7 +139,7 @@ export const generateJWT = (
   next: NextFunction
 ): void => {
   const token = jwt.sign(
-    { userId: res.locals.user[0].user_id },
+    { userId: res.locals.user.user_id },
     process.env.JWT_SECRET as string,
     {
       expiresIn: '1h',
