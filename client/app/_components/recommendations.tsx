@@ -2,8 +2,17 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import basketballSockImage from '../basketball-socks.png';
+import ConfirmationModal from './ConfirmationModal';
+
+interface InputData {
+  receiver: string;
+  occasion: string;
+  interest: string;
+  budget: string;
+}
 
 export default function Recommendations(props: {
+  inputData: InputData;
   userData: string;
   recommendedGifts: string[];
   giftImages: string[];
@@ -11,13 +20,15 @@ export default function Recommendations(props: {
   const giftIdeas: string[] = props.recommendedGifts;
   const router = useRouter();
   const [selectedGift, setSelectedGift] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
+
   function handleClick(giftTitle: string): void {
     window.open(`https://www.amazon.com/s?k=${giftTitle.split(' ').join('+')}`);
   }
 
   function handleSave(): void {
     if (props.userData && selectedGift) {
-      router.push('/confirmation');
+      setShowModal(true);
     } else if (props.userData) {
       router.push('/dashboard');
     } else {
@@ -80,6 +91,13 @@ export default function Recommendations(props: {
         </button>
       ) : (
         <></>
+      )}
+      {showModal && (
+        <ConfirmationModal
+          inputData={props.inputData}
+          selectedGift={selectedGift}
+          onClose={() => setShowModal(false)}
+        />
       )}
     </div>
   );

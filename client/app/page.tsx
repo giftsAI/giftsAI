@@ -7,7 +7,20 @@ import Link from 'next/link';
 import Recommendations from './_components/recommendations';
 import LoadingSpinner from './_components/loadingSpinner';
 
+interface InputData {
+  receiver: string;
+  occasion: string;
+  interest: string;
+  budget: string;
+}
+
 export default function Home(): JSX.Element {
+  const [inputData, setInputData] = useState<InputData>({
+    receiver: '',
+    occasion: '',
+    interest: '',
+    budget: '',
+  });
   const [recommendedGifts, setRecommendedGifts] = useState<string[]>([]);
   const [giftsImages, setGiftImages] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -27,19 +40,19 @@ export default function Home(): JSX.Element {
   ): Promise<void> => {
     event.preventDefault();
     setLoading(true);
-    const target = event.currentTarget;
-    const data = {
-      receiver: target.receiver.value,
-      occasion: target.occasion.value,
-      interest: target.interest.value,
-      budget: target.budget.value,
-    };
+    // const target = event.currentTarget;
+    // const data = {
+    //   receiver: target.receiver.value,
+    //   occasion: target.occasion.value,
+    //   interest: target.interest.value,
+    //   budget: target.budget.value,
+    // };
     const res: Response = await fetch('http://localhost:3500/gift/recommend', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(inputData),
     });
     const giftsInfo = await res.json();
     const giftsArr: string[] = giftsInfo.recommendations;
@@ -100,6 +113,9 @@ export default function Home(): JSX.Element {
               id="receiver"
               placeholder="friend, spouse, etc."
               className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30 transition-colors focus:outline-none focus:border-gray-500"
+              onChange={(e) =>
+                setInputData({ ...inputData, receiver: e.target.value })
+              }
             ></input>
           </div>
 
@@ -109,6 +125,9 @@ export default function Home(): JSX.Element {
               id="occasion"
               placeholder="birthday, holidays, etc."
               className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30 transition-colors focus:outline-none focus:border-gray-500"
+              onChange={(e) =>
+                setInputData({ ...inputData, occasion: e.target.value })
+              }
             ></input>
           </div>
 
@@ -118,6 +137,9 @@ export default function Home(): JSX.Element {
               id="interest"
               placeholder="hobbies, activities, etc."
               className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30  transition-colors focus:outline-none focus:border-gray-500"
+              onChange={(e) =>
+                setInputData({ ...inputData, interest: e.target.value })
+              }
             ></input>
           </div>
 
@@ -127,6 +149,9 @@ export default function Home(): JSX.Element {
               id="budget"
               placeholder="$10, $50, $100, etc."
               className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30  transition-colors focus:outline-none focus:border-gray-500"
+              onChange={(e) =>
+                setInputData({ ...inputData, budget: e.target.value })
+              }
             ></input>
           </div>
         </div>
@@ -138,6 +163,7 @@ export default function Home(): JSX.Element {
         <LoadingSpinner />
       ) : (
         <Recommendations
+          inputData={inputData}
           userData={userData}
           recommendedGifts={recommendedGifts}
           giftImages={giftsImages}
