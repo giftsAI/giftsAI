@@ -7,6 +7,7 @@ import type {
   ErrorRequestHandler,
 } from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import giftRouter from './router/giftRouter';
 import userRouter from './router/userRouter';
 
@@ -15,6 +16,7 @@ const app: Express = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 // Route for gift recommendation (interact with AI)
 app.use('/gift', giftRouter);
