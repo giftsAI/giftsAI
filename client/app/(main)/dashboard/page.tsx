@@ -30,7 +30,7 @@ function Dashboard(): JSX.Element {
   },[user, filteredList]);  
 
   // delete selected gift
-  const deleteGift = (giftId: number, index: number) : void => {
+  const deleteGift = (giftId: number, index: number, gifterId: number) : void => {
     const removedGift = filteredList.slice(0, index).concat(filteredList.slice(index + 1));
     setFilteredList(removedGift);
     fetch(`http://localhost:3500/user/deletegift/${giftId}`, {
@@ -38,6 +38,7 @@ function Dashboard(): JSX.Element {
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({gifterId})
     })
     .catch(err => {
       if(err instanceof Error) console.log(err.message);
@@ -94,7 +95,7 @@ function Dashboard(): JSX.Element {
                       <td>{gift.gift}</td>
                       <td className="hidden md:table-cell">{gift.date.replace(/[T](.*)/, '')}</td>
                       <td>
-                        <button onClick={async () : Promise<void> => deleteGift(gift.gift_id, index)}>
+                        <button onClick={async () : Promise<void> => deleteGift(gift.gift_id, index, gift.gifter_id)}>
                           <svg 
                             xmlns="http://www.w3.org/2000/svg" 
                             fill="none" 
