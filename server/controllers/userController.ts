@@ -46,7 +46,7 @@ export const createUser = async (
     const querySignup = `
     INSERT INTO users (first_name, last_name, email, password)
     VALUES ($1, $2, $3, $4)
-    RETURNING user_id AS id, first_name AS "firstName", last_name AS "lastName", email 
+    RETURNING *; 
     `;
 
     // Password hashing with bcrypt
