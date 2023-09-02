@@ -1,10 +1,19 @@
+'use client'
+
 import Image from 'next/image';
+import { useEffect } from 'react';
+
 
 export default function LoginLayout({
   children,
 }: {
   children: React.ReactNode;
 }): JSX.Element {
+
+  // whenever user lands on this page, automatically log off session
+  useEffect(() => {
+    localStorage.removeItem('userData');
+  }, []);
 
   return (
     <main className=" max-w-5xl w-full min-h-screen">

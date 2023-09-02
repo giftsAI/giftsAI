@@ -18,6 +18,7 @@ function LoginForm(): JSX.Element {
 
   const router = useRouter();
 
+  // submit user credentials for validation from backend server
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
 
@@ -30,13 +31,13 @@ function LoginForm(): JSX.Element {
         body: JSON.stringify(userLogin),
       });
 
-      if (response.status === 200) {
+      if (response.status === 200) { // successful login
         try {
           console.log('success');
           const userData = await response.json();
           localStorage.setItem('userData', JSON.stringify(userData));
           setSubmissionStatus('Success');
-        } catch (error) {
+        } catch (error) { // start of handling unsuccessful login 
           setSubmissionStatus('Error');
         }
       } else if (response.status === 403) {
@@ -48,11 +49,9 @@ function LoginForm(): JSX.Element {
   };
 
   useEffect(() => {
-    if (submissionStatus === 'Success') {
-      router.push('/dashboard');
-    } else if (submissionStatus === 'Error') {
-      router.push('/error-page');
-    }
+    if (submissionStatus === 'Success') { // successful login, direct to main page
+      router.push('/');
+    } 
   });
 
   return (
@@ -95,6 +94,12 @@ function LoginForm(): JSX.Element {
           </button>
         </div>
       </form>
+      {
+        submissionStatus === 'Error'? 
+        <div className="text-rose-500">
+          Invalid credentials. Please try again.
+        </div> : <></>
+      }
     </div>
   );
 }

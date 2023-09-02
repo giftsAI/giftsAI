@@ -11,7 +11,7 @@ export default function Home(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
 
   
-  // form submission, submitting user's inputs and fetching gift recommendations from the server
+  // form submission, submitting user's inputs and fetching gift recommendations from the backend server
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {

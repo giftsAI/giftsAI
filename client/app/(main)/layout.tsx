@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState, useEffect, createContext } from 'react';
 import type { User } from '../_static/types';
 
+
 const defaultUser : User = {
   user_id: 0,
   first_name: '',
@@ -14,6 +15,7 @@ const defaultUser : User = {
 
 export const UserContext = createContext(defaultUser);
 
+
 export default function MainLayout({
   children,
 }: {
@@ -21,6 +23,7 @@ export default function MainLayout({
 }): JSX.Element {
   const [userData, setUserData] = useState<User>(defaultUser);
 
+  // checking if user already has an active session
   useEffect(() => {
     const storedUserData: string | null = localStorage.getItem('userData');
     if (storedUserData) {
@@ -28,6 +31,12 @@ export default function MainLayout({
       setUserData(parsedUserData);
     }
   }, []);
+
+  // to end session once logout button has been clicked
+  const logOut = () : void => {
+    localStorage.removeItem('userData');
+    setUserData(defaultUser);
+  };
 
   return (
     <main className="lg:max-w-5xl lg:w-full lg:mb-0">
@@ -54,12 +63,12 @@ export default function MainLayout({
             >
               {userData.first_name}
             </Link>
-            <Link
+            <button
               className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200"
-              href="/"
+              onClick={logOut}
             >
               Log Out
-            </Link>
+            </button>
           </div>
         ) : (
           <div className="flex gap-2">
