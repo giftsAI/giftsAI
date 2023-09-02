@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 interface InputData {
   receiver: string;
   occasion: string;
@@ -14,6 +16,8 @@ function ConfirmationModal({
   onClose: () => void;
   inputData: InputData;
 }): JSX.Element {
+  const [date, setDate] = useState<string>('');
+
   return (
     <div className="fixed inset-0 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen pt-4 pb-20 text-center sm:p-0">
@@ -43,6 +47,13 @@ function ConfirmationModal({
                   <p className="mt-3 text-base leading-relaxed text-center text-gray-200">
                     <span>{inputData.budget}</span>
                   </p>
+                  <p className="mb-3 text-l font-semibold">Occasion Date</p>
+                  <input
+                    type="date"
+                    placeholder="Select date"
+                    className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-80  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30 transition-colors focus:outline-none focus:border-gray-500"
+                    value={date}
+                  />
                   <div className="w-full mt-6 flex flex-col gap-4">
                     <button className="mx-auto border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-64 lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200">
                       Save
