@@ -20,7 +20,6 @@ userRouter.post(
   createUser,
   generateJWT,
   (req: Request, res: Response) => {
-    console.log(res.locals.user);
     res
       .cookie('access_token', res.locals.token, {
         httpOnly: true,
@@ -36,7 +35,6 @@ userRouter.post(
   loginUser,
   generateJWT,
   (req: Request, res: Response) => {
-    console.log(res.locals.user);
     res
       .cookie('access_token', res.locals.token, {
         httpOnly: true,
