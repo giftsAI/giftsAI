@@ -167,7 +167,7 @@ export const verifyJWT = (
     const payload = jwt.verify(token, process.env.JWT_SECRET as string);
     const { userId } = payload as jwt.JwtPayload;
 
-    if (req.body.id !== userId && req.body.gifterId !== userId) {
+    if (req.body.id !== userId && req.body.gifterId !== userId && req.params.userId !== userId) {
       throw new Error('Id in JWT and http body do not match.');
     }
     return next();
