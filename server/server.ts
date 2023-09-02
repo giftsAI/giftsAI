@@ -7,14 +7,18 @@ import type {
   ErrorRequestHandler,
 } from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import giftRouter from './router/giftRouter';
 import userRouter from './router/userRouter';
 
 const PORT: number = 3500;
 const app: Express = express();
 
-app.use(cors());
+const corsOptions = { origin: 'http://localhost:3000', credentials: true };
+
+app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
 
 // Route for gift recommendation (interact with AI)
 app.use('/gift', giftRouter);

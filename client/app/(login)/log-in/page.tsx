@@ -18,12 +18,14 @@ function LoginForm(): JSX.Element {
 
   const router = useRouter();
 
+  // submit user credentials for validation from backend server
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
 
     try {
       const response = await fetch('http://localhost:3500/user/signin', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -31,12 +33,15 @@ function LoginForm(): JSX.Element {
       });
 
       if (response.status === 200) {
+        // successful login
         try {
           console.log('success');
           const userData = await response.json();
           localStorage.setItem('userData', JSON.stringify(userData));
+          setTimeout(() => localStorage.removeItem('userData'), 1000 * 60 * 60);
           setSubmissionStatus('Success');
         } catch (error) {
+          // start of handling unsuccessful login
           setSubmissionStatus('Error');
         }
       } else if (response.status === 403) {
@@ -49,17 +54,16 @@ function LoginForm(): JSX.Element {
 
   useEffect(() => {
     if (submissionStatus === 'Success') {
-      router.push('/dashboard');
-    } else if (submissionStatus === 'Error') {
-      router.push('/error-page');
+      // successful login, direct to main page
+      router.push('/');
     }
   });
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="flex min-h-screen w-full flex-col items-center space-y-20">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-10 items-center justify-center min-h-screen"
+        className="flex flex-col gap-10 items-center justify-center"
       >
         <div className="w-auto">
           <h2 className="mb-3 text-2xl font-semibold">Email</h2>
@@ -95,6 +99,13 @@ function LoginForm(): JSX.Element {
           </button>
         </div>
       </form>
+      {submissionStatus === 'Error' ? (
+        <div className="text-rose-500">
+          Invalid credentials. Please try again.
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

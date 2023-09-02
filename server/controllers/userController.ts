@@ -1,5 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 import database from '../db/giftsDatabase';
 
 const SALT_WORK_FACTOR = 10;
@@ -11,7 +13,7 @@ export const createUser = async (
   next: NextFunction
 ): Promise<void> => {
   const { firstName, lastName, email, password } = req.body;
-  if (!email || !password)
+  if (!firstName || !lastName || !email || !password)
     return next({
       log: 'Error in userController.createUser: not given all necessary inputs',
       status: 400,
@@ -21,15 +23,18 @@ export const createUser = async (
   // Determine if user with email already exists
   try {
     const queryLogin = `
-  SELECT * FROM users WHERE email = $1;
-  `;
+    SELECT * FROM users WHERE email = $1;
+    `;
 
     const login = [email];
     const data = await database.query(queryLogin, login);
-
     if (data.rows[0]) {
-      res.locals.createdUser = false;
-      return next();
+      return next({
+        log: 'Error in userController.createUser: not given all necessary inputs',
+        status: 403,
+        message:
+          'This user already exists in the system - please use another email address to complete your sign-up',
+      });
     }
   } catch (error: any) {
     return next({
@@ -41,20 +46,23 @@ export const createUser = async (
   // If user with an email does not exist, then proceeed with sign-up process
   try {
     const querySignup = `
-  INSERT INTO users (first_name, last_name, email, password)
-  VALUES ($1, $2, $3, $4)
-  RETURNING user_id AS id, first_name AS "firstName", last_name AS "lastName", email 
-  `;
+    INSERT INTO users (first_name, last_name, email, password)
+    VALUES ($1, $2, $3, $4)
+    RETURNING *; 
+    `;
 
     // Password hashing with bcrypt
     const hashPassword = await bcrypt.hash(password, SALT_WORK_FACTOR);
 
-    console.log(hashPassword);
-
     // Save user information in database
     const params = [firstName, lastName, email, hashPassword];
     const data = await database.query(querySignup, params);
-    console.log(data);
+
+    // Remove password from user object prior to sending response
+    delete data.rows[0].password;
+    res.locals.user = {
+      ...data.rows[0],
+    };
     return next();
   } catch (error: any) {
     return next({
@@ -82,8 +90,8 @@ export const loginUser = async (
 
   try {
     const queryLogin = `
-  SELECT * FROM users WHERE email = $1;
-  `;
+    SELECT * FROM users WHERE email = $1;
+    `;
 
     const login = [email];
     const data = await database.query(queryLogin, login);
@@ -101,7 +109,12 @@ export const loginUser = async (
     const matchedPW = await bcrypt.compare(password, data.rows[0].password);
     if (matchedPW) {
       res.locals.signIn = true;
-      res.locals.email = data.rows[0].email;
+
+      // Remove password from user object prior to sending response
+      delete data.rows[0].password;
+      res.locals.user = {
+        ...data.rows[0],
+      };
       return next();
     }
     // if password does not match, sign in is
@@ -118,3 +131,57 @@ export const loginUser = async (
     });
   }
 };
+
+// Generate a JWT after user successful sign in
+export const generateJWT = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  const token = jwt.sign(
+    { userId: res.locals.user.user_id },
+    process.env.JWT_SECRET as string,
+    {
+      expiresIn: '1h',
+    }
+  );
+  res.locals.token = token;
+  return next();
+};
+
+// Verify the JWT in the cookie
+// export const verifyJWT = (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ): void => {
+//   const token = req.cookies.access_token;
+//   if (!token) {
+//     return next({
+//       log: 'User is not authorized to access. No JWT access token provided in the cookies.',
+//       status: 403,
+//       message: 'Not authorized',
+//     });
+//   }
+//   try {
+//     const payload = jwt.verify(token, process.env.JWT_SECRET as string);
+//     const { userId } = payload as jwt.JwtPayload;
+
+//     if (req.body.id !== userId && req.body.gifterId !== userId && req.params.userId !== userId) {
+//       throw new Error('Id in JWT and http body do not match.');
+//     }
+//     return next();
+//   } catch (err) {
+//     return next({
+//       log: `User is not authorized to access since JWT canot be verified. ${err}.`,
+//       status: 403,
+//       message: 'Not authorized',
+//     });
+//   }
+// };
+
+export const verifyJWT = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => next();

@@ -1,8 +1,10 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import basketballSockImage from '../basketball-socks.png';
 import ConfirmationModal from './ConfirmationModal';
+import { UserContext } from '../(main)/layout';
+import type { User } from '../_static/types';
 
 interface InputData {
   receiver: string;
@@ -13,24 +15,23 @@ interface InputData {
 
 export default function Recommendations(props: {
   inputData: InputData;
-  userData: string;
   recommendedGifts: string[];
   giftImages: string[];
 }): JSX.Element {
   const giftIdeas: string[] = props.recommendedGifts;
   const router = useRouter();
-  const [selectedGift, setSelectedGift] = useState<string | null>(null);
+  const [selectedGift, setSelectedGift] = useState<string>('');
   const [showModal, setShowModal] = useState(false);
+  const user: User = useContext(UserContext);
 
   function handleClick(giftTitle: string): void {
     window.open(`https://www.amazon.com/s?k=${giftTitle.split(' ').join('+')}`);
   }
 
   function handleSave(): void {
-    if (props.userData && selectedGift) {
+    console.log(selectedGift);
+    if (user.user_id && selectedGift) {
       setShowModal(true);
-    } else if (props.userData) {
-      router.push('/dashboard');
     } else {
       router.push('/log-in');
     }
@@ -60,14 +61,18 @@ export default function Recommendations(props: {
                 onChange={() => setSelectedGift(gift)}
               ></input>
               <dt>
-                {/* Original code, using hard coded image below
-                <Image alt="gift image" src={props.giftImages[index]} width={256} height={256}/> */}
                 <Image
+                  alt="gift image"
+                  src={props.giftImages[index]}
+                  width={256}
+                  height={256}
+                />
+                {/* <Image
                   alt="gift image"
                   src={basketballSockImage}
                   width={256}
                   height={256}
-                />
+                /> */}
               </dt>
               <dd>{gift}</dd>
               <dd>

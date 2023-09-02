@@ -10,7 +10,7 @@ const giftRouter = Router();
 giftRouter.post(
   '/recommend',
   getGiftRecommendations,
-  // generateImages,
+  generateImages,
   (req: Request, res: Response) => {
     res.status(200).json(res.locals);
   }
