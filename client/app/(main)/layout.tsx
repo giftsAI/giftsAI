@@ -3,26 +3,24 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, createContext} from 'react';
+import type { User } from '../_static/types';
 
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }): JSX.Element {
-  const [userData, setUserData] = useState<string>('');
-  const value : {
-    userData: string,
-    setUserData: (val: string) => void,
-  } = { userData, setUserData };
-  const UserContext = createContext(value);
+  const [userData, setUserData] = useState<User|null>(null);
+  const UserContext = createContext(userData);
 
   useEffect(() => {
     const storedUserData: string | null = localStorage.getItem('userData');
     if (storedUserData) {
-      const parsedUserData: string = JSON.parse(storedUserData);
+      const parsedUserData: User = JSON.parse(storedUserData);
       setUserData(parsedUserData);
+      console.log(userData);
     }
-    console.log(storedUserData);
+    
   }, []);
 
   return (
@@ -43,12 +41,20 @@ export default function MainLayout({
           </a>
         </div>
         {userData ? (
-          <Link
-            className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200"
-            href="/"
-          >
-            Log Out
-          </Link>
+          <div className="flex gap-2">
+            <Link
+              className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-white lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-transparent hover:bg-white hover:bg-opacity-10"
+              href="/dashboard"
+            >
+              {userData.first_name}
+            </Link>
+            <Link
+              className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-black lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-sky-300 hover:bg-sky-200"
+              href="/"
+            >
+              Log Out
+            </Link>
+          </div>
         ) : (
           <div className="flex gap-2">
             <Link
@@ -66,7 +72,7 @@ export default function MainLayout({
           </div>
         )}
       </header>
-      <UserContext.Provider value={value}>
+      <UserContext.Provider value={userData}>
         {children}
       </UserContext.Provider>
     </main>
