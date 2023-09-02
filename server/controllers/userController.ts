@@ -21,7 +21,7 @@ export const createUser = async (
   // Determine if user with email already exists
   try {
     const queryLogin = `
-      SELECT * FROM users WHERE email = $1;
+    SELECT * FROM users WHERE email = $1;
     `;
 
     const login = [email];
@@ -44,9 +44,9 @@ export const createUser = async (
   // If user with an email does not exist, then proceeed with sign-up process
   try {
     const querySignup = `
-      INSERT INTO users (first_name, last_name, email, password)
-      VALUES ($1, $2, $3, $4)
-      RETURNING user_id AS id, first_name AS "firstName", last_name AS "lastName", email 
+    INSERT INTO users (first_name, last_name, email, password)
+    VALUES ($1, $2, $3, $4)
+    RETURNING user_id AS id, first_name AS "firstName", last_name AS "lastName", email 
     `;
 
     // Password hashing with bcrypt
@@ -88,7 +88,7 @@ export const loginUser = async (
 
   try {
     const queryLogin = `
-      SELECT * FROM users WHERE email = $1;
+    SELECT * FROM users WHERE email = $1;
     `;
 
     const login = [email];

@@ -8,7 +8,7 @@ export const getGifts = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { id } = req.body;
+  const { userId } = req.params;
 
   // join table query to get saved gift results based on user-id
   const query = `
@@ -17,7 +17,7 @@ export const getGifts = async (
   WHERE "gifter_id" = $1 
   ORDER BY date desc`;
 
-  const param = [id];
+  const param = [userId];
   const data = await database.query(query, param);
   res.locals.gifts = data.rows;
   return next();
@@ -109,7 +109,7 @@ export const deleteGift = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { id } = req.body;
+  const { giftId } = req.params;
 
   const deleteQuery = `
   DELETE FROM gifts
@@ -117,7 +117,7 @@ export const deleteGift = async (
   RETURNING *
   `;
 
-  const param = [id];
+  const param = [giftId];
   const data = await database.query(deleteQuery, param);
   // eslint-disable-next-line prefer-destructuring
   res.locals.deleted = data.rows[0];

@@ -18,7 +18,7 @@ userRouter.post('/signin', loginUser, (req: Request, res: Response) => {
   res.status(200).json(res.locals.user);
 });
 
-userRouter.get('/gifts', getGifts, (req: Request, res: Response) => {
+userRouter.get('/gifts/:userId', getGifts, (req: Request, res: Response) => {
   res.status(200).json(res.locals.gifts);
 });
 
@@ -30,7 +30,7 @@ userRouter.patch('/updategift', updateGift, (req: Request, res: Response) => {
   res.status(200).json(res.locals.updated);
 });
 
-userRouter.delete('/deletegift', deleteGift, (req: Request, res: Response) => {
+userRouter.delete('/deletegift/:giftId', deleteGift, (req: Request, res: Response) => {
   res.status(200).json(res.locals.deleted);
 });
 

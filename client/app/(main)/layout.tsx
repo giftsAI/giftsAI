@@ -2,25 +2,31 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect, createContext} from 'react';
+import { useState, useEffect, createContext } from 'react';
 import type { User } from '../_static/types';
+
+const defaultUser : User = {
+  user_id: 0,
+  first_name: '',
+  last_name: '',
+  email: ''
+}
+
+export const UserContext = createContext(defaultUser);
 
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }): JSX.Element {
-  const [userData, setUserData] = useState<User|null>(null);
-  const UserContext = createContext(userData);
+  const [userData, setUserData] = useState<User>(defaultUser);
 
   useEffect(() => {
     const storedUserData: string | null = localStorage.getItem('userData');
     if (storedUserData) {
       const parsedUserData: User = JSON.parse(storedUserData);
       setUserData(parsedUserData);
-      console.log(userData);
     }
-    
   }, []);
 
   return (
@@ -40,7 +46,7 @@ export default function MainLayout({
             />
           </a>
         </div>
-        {userData ? (
+        {userData.user_id ? (
           <div className="flex gap-2">
             <Link
               className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-sky-300 dark:text-white lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-transparent hover:bg-white hover:bg-opacity-10"
