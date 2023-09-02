@@ -1,24 +1,23 @@
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import basketballSockImage from '../basketball-socks.png';
 
 export default function Recommendations(props: {
-  userData: string;
   recommendedGifts: string[];
   giftImages: string[];
 }): JSX.Element {
   const giftIdeas: string[] = props.recommendedGifts;
-  const router = useRouter();
+  // const router = useRouter();
   function handleClick(giftTitle: string): void {
     window.open(`https://www.amazon.com/s?k=${giftTitle.split(' ').join('+')}`);
   }
 
   function handleSave(): void {
-    if (props.userData) {
-      router.push('/dashboard');
-    } else {
-      router.push('/log-in');
-    }
+    // if (props.userData) {
+    //   router.push('/dashboard');
+    // } else {
+    //   router.push('/log-in');
+    // }
   }
 
   return (

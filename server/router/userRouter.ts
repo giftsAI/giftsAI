@@ -45,7 +45,7 @@ userRouter.post(
   }
 );
 
-userRouter.get('/gifts', verifyJWT, getGifts, (req: Request, res: Response) => {
+userRouter.get('/gifts/:userId', verifyJWT, getGifts, (req: Request, res: Response) => {
   res.status(200).json(res.locals.gifts);
 });
 

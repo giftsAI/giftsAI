@@ -22,6 +22,7 @@ function CreateAccountForm(): JSX.Element {
 
   const router = useRouter();
 
+  // submitting new account information
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     try {
@@ -33,31 +34,32 @@ function CreateAccountForm(): JSX.Element {
         body: JSON.stringify(user),
       });
 
-      if (response.status === 200) {
+      if (response.status === 200) { // successful signup, log in user automatically
         console.log('successful response');
+        const userData = await response.json();
+        localStorage.setItem('userData', JSON.stringify(userData));
+        setTimeout(() => localStorage.removeItem('userData'), 1000 * 60 * 60);
         setSubmissionStatus('Success');
       } else {
         setSubmissionStatus('Error');
       }
-    } catch (error) {
+    } catch (error) { // error in sign up
       console.log(error);
       setSubmissionStatus('Error');
     }
   };
 
   useEffect(() => {
-    if (submissionStatus === 'Success') {
-      router.push('/dashboard');
-    } else if (submissionStatus === 'Error') {
-      router.push('/error-page');
+    if (submissionStatus === 'Success') { // send to main page once succesfully signed in
+      router.push('/');
     }
   }, [submissionStatus, router]);
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="flex min-h-screen w-full flex-col items-center space-y-20">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-10 items-center justify-center min-h-screen"
+        className="flex flex-col gap-10 items-center justify-center"
       >
         <div className="w-auto">
           <h2 className={`mb-3 text-2xl font-semibold`}>First Name</h2>
@@ -92,6 +94,7 @@ function CreateAccountForm(): JSX.Element {
         <div className="w-auto">
           <h2 className={`mb-3 text-2xl font-semibold`}>Password</h2>
           <input
+            type="password"
             placeholder="Enter password"
             className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-80  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30 transition-colors focus:outline-none focus:border-gray-500"
             value={user.password}
@@ -108,6 +111,12 @@ function CreateAccountForm(): JSX.Element {
           </button>
         </div>
       </form>
+      {
+        submissionStatus === 'Error' ?
+        <div className="text-rose-500">
+          Please review information and try again.
+        </div> : <></>
+      }
     </div>
   );
 }

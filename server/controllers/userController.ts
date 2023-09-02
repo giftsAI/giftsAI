@@ -13,7 +13,7 @@ export const createUser = async (
   next: NextFunction
 ): Promise<void> => {
   const { firstName, lastName, email, password } = req.body;
-  if (!email || !password)
+  if (!firstName || !lastName || !email || !password)
     return next({
       log: 'Error in userController.createUser: not given all necessary inputs',
       status: 400,
@@ -23,12 +23,11 @@ export const createUser = async (
   // Determine if user with email already exists
   try {
     const queryLogin = `
-  SELECT * FROM users WHERE email = $1;
-  `;
+    SELECT * FROM users WHERE email = $1;
+    `;
 
     const login = [email];
     const data = await database.query(queryLogin, login);
-    console.log(data);
     if (data.rows[0]) {
       return next({
         log: 'Error in userController.createUser: not given all necessary inputs',
@@ -47,10 +46,10 @@ export const createUser = async (
   // If user with an email does not exist, then proceeed with sign-up process
   try {
     const querySignup = `
-  INSERT INTO users (first_name, last_name, email, password)
-  VALUES ($1, $2, $3, $4)
-  RETURNING user_id AS id, first_name AS "firstName", last_name AS "lastName", email 
-  `;
+    INSERT INTO users (first_name, last_name, email, password)
+    VALUES ($1, $2, $3, $4)
+    RETURNING *; 
+    `;
 
     // Password hashing with bcrypt
     const hashPassword = await bcrypt.hash(password, SALT_WORK_FACTOR);
@@ -61,7 +60,9 @@ export const createUser = async (
 
     // Remove password from user object prior to sending response
     delete data.rows[0].password;
-    res.locals.user = data.rows;
+    res.locals.user = {
+      ...data.rows[0]
+    };
     return next();
   } catch (error: any) {
     return next({
@@ -89,8 +90,8 @@ export const loginUser = async (
 
   try {
     const queryLogin = `
-  SELECT * FROM users WHERE email = $1;
-  `;
+    SELECT * FROM users WHERE email = $1;
+    `;
 
     const login = [email];
     const data = await database.query(queryLogin, login);
@@ -111,7 +112,9 @@ export const loginUser = async (
 
       // Remove password from user object prior to sending response
       delete data.rows[0].password;
-      res.locals.user = data.rows;
+      res.locals.user = {
+        ...data.rows[0]
+      };
       return next();
     }
     // if password does not match, sign in is
@@ -136,7 +139,7 @@ export const generateJWT = (
   next: NextFunction
 ): void => {
   const token = jwt.sign(
-    { userId: res.locals.user[0].user_id },
+    { userId: res.locals.user.user_id },
     process.env.JWT_SECRET as string,
     {
       expiresIn: '1h',
@@ -164,7 +167,7 @@ export const verifyJWT = (
     const payload = jwt.verify(token, process.env.JWT_SECRET as string);
     const { userId } = payload as jwt.JwtPayload;
 
-    if (req.body.id !== userId && req.body.gifterId !== userId) {
+    if (req.body.id !== userId && req.body.gifterId !== userId && req.params.userId !== userId) {
       throw new Error('Id in JWT and http body do not match.');
     }
     return next();
