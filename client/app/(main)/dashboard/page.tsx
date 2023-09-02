@@ -61,38 +61,38 @@ function Dashboard(): JSX.Element {
     <>
     {
       user.user_id > 0? 
-      <div className="flex flex-col place-items-center justify-center lg:max-w-5xl lg:w-full lg:mb-0">
+      <div className="flex flex-col place-items-center justify-center w-full mb-0">
         <h2 className="mb-3 text-2xl font-semibold">Your Past Gifts:</h2>
         <input
-          placeholder="Search gifts by receiver's name"
+          placeholder="Search by receiver's name"
           onChange={filterGifts}
           className="border-2 rounded-lg border-gray-300 bg-gradient-to-b from-zinc-200 px-8 py-6 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit w-full transition-colors focus:outline-none focus:border-gray-500"
         ></input>
         {
           filteredList[0]? 
-            <table className="my-12 w-full table-fixed">
+            <table className="my-12 w-full table-auto">
               <thead className="h-24 text-xl opacity-50">
                 <tr>
-                  <th className="w-[13%]">Name</th>
-                  <th className="w-[13%]">Relationship</th>
-                  <th className="w-[13%]">Occasion</th>
-                  <th className="w-[13%]">Interest</th>
-                  <th className="w-[13%]">Budget</th>
-                  <th className="w-[13%]">Gift</th>
-                  <th className="w-[13%]">Date</th>
+                  <th className="hidden sm:table-cell">Name</th>
+                  <th className="hidden xl:table-cell">Relationship</th>
+                  <th className="hidden lg:table-cell">Occasion</th>
+                  <th className="hidden md:table-cell">Interest</th>
+                  <th className="hidden md:table-cell">Budget</th>
+                  <th>Gift</th>
+                  <th className="hidden md:table-cell">Date</th>
                 </tr>
               </thead>
               <tbody className="h-24">
                 {
                   filteredList.map((gift: Gift, index: number) => (
                     <tr key={gift.gift_id} className="h-24 hover:text-sky-300 text-center">
-                      <td>{gift.receiver_name}</td>
-                      <td>{gift.receiver}</td>
-                      <td>{gift.occasion}</td>
-                      <td>{gift.interest}</td>
-                      <td>{gift.budget}</td>
+                      <td className="hidden sm:table-cell">{gift.receiver_name}</td>
+                      <td className="hidden xl:table-cell">{gift.receiver}</td>
+                      <td className="hidden lg:table-cell">{gift.occasion}</td>
+                      <td className="hidden md:table-cell">{gift.interest}</td>
+                      <td className="hidden md:table-cell">{gift.budget}</td>
                       <td>{gift.gift}</td>
-                      <td>{gift.date.replace(/[T](.*)/, '')}</td>
+                      <td className="hidden md:table-cell">{gift.date.replace(/[T](.*)/, '')}</td>
                       <td>
                         <button onClick={async () : Promise<void> => deleteGift(gift.gift_id, index)}>
                           <svg 

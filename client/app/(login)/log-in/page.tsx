@@ -36,6 +36,7 @@ function LoginForm(): JSX.Element {
           console.log('success');
           const userData = await response.json();
           localStorage.setItem('userData', JSON.stringify(userData));
+          setTimeout(() => localStorage.removeItem('userData'), 1000 * 60 * 60);
           setSubmissionStatus('Success');
         } catch (error) { // start of handling unsuccessful login 
           setSubmissionStatus('Error');

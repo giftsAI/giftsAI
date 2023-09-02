@@ -38,6 +38,7 @@ function CreateAccountForm(): JSX.Element {
         console.log('successful response');
         const userData = await response.json();
         localStorage.setItem('userData', JSON.stringify(userData));
+        setTimeout(() => localStorage.removeItem('userData'), 1000 * 60 * 60);
         setSubmissionStatus('Success');
       } else {
         setSubmissionStatus('Error');
