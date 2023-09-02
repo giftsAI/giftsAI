@@ -11,7 +11,7 @@ export const createUser = async (
   next: NextFunction
 ): Promise<void> => {
   const { firstName, lastName, email, password } = req.body;
-  if (!email || !password)
+  if (!firstName || !lastName || !email || !password)
     return next({
       log: 'Error in userController.createUser: not given all necessary inputs',
       status: 400,
@@ -21,15 +21,18 @@ export const createUser = async (
   // Determine if user with email already exists
   try {
     const queryLogin = `
-  SELECT * FROM users WHERE email = $1;
-  `;
+      SELECT * FROM users WHERE email = $1;
+    `;
 
     const login = [email];
     const data = await database.query(queryLogin, login);
-
     if (data.rows[0]) {
-      res.locals.createdUser = false;
-      return next();
+      return next({
+        log: 'Error in userController.createUser: not given all necessary inputs',
+        status: 403,
+        message:
+          'This user already exists in the system - please use another email address to complete your sign-up',
+      });
     }
   } catch (error: any) {
     return next({
@@ -41,20 +44,23 @@ export const createUser = async (
   // If user with an email does not exist, then proceeed with sign-up process
   try {
     const querySignup = `
-  INSERT INTO users (first_name, last_name, email, password)
-  VALUES ($1, $2, $3, $4)
-  RETURNING user_id AS id, first_name AS "firstName", last_name AS "lastName", email 
-  `;
+      INSERT INTO users (first_name, last_name, email, password)
+      VALUES ($1, $2, $3, $4)
+      RETURNING user_id AS id, first_name AS "firstName", last_name AS "lastName", email 
+    `;
 
     // Password hashing with bcrypt
     const hashPassword = await bcrypt.hash(password, SALT_WORK_FACTOR);
 
-    console.log(hashPassword);
-
     // Save user information in database
     const params = [firstName, lastName, email, hashPassword];
     const data = await database.query(querySignup, params);
-    console.log(data);
+
+    // Remove password from user object prior to sending response
+    delete data.rows[0].password;
+    res.locals.user = {
+      ...data.rows[0]
+    };
     return next();
   } catch (error: any) {
     return next({
@@ -82,27 +88,39 @@ export const loginUser = async (
 
   try {
     const queryLogin = `
-  SELECT * FROM users WHERE email = $1;
-  `;
+      SELECT * FROM users WHERE email = $1;
+    `;
 
     const login = [email];
     const data = await database.query(queryLogin, login);
 
     // If user does not exist in database, then move on to next middleware function
     if (!data.rows[0]) {
-      res.locals.signIn = false;
-      return next();
+      next({
+        log: 'Error in loginUser middleware: verifying the user in the database',
+        status: 403,
+        message: 'This user does not exist in the system',
+      });
     }
 
     // If user exists in database, verify the input password
     const matchedPW = await bcrypt.compare(password, data.rows[0].password);
-
     if (matchedPW) {
       res.locals.signIn = true;
-      res.locals.email = data.rows[0].email;
+
+      // Remove password from user object prior to sending response
+      delete data.rows[0].password;
+      res.locals.user = {
+        ...data.rows[0]
+      };
+      return next();
     }
     // if password does not match, sign in is
-    else res.locals.signin = false;
+    return next({
+      log: 'Error in loginUser middleware: verifying the user in the database',
+      status: 403,
+      message: 'Password does not match',
+    });
   } catch (error) {
     return next({
       log: 'Error in loginUser middleware: verifying the user in the database',
@@ -110,5 +128,4 @@ export const loginUser = async (
       message: 'error when trying to log-in the user',
     });
   }
-  return next();
 };
