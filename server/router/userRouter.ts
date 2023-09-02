@@ -6,32 +6,79 @@ import {
   updateGift,
   deleteGift,
 } from '../controllers/giftController';
-import { createUser, loginUser } from '../controllers/userController';
+import {
+  createUser,
+  loginUser,
+  generateJWT,
+  verifyJWT,
+} from '../controllers/userController';
 
 const userRouter = Router();
 
-userRouter.post('/signup', createUser, (req: Request, res: Response) => {
-  res.status(200).json(res.locals.user);
-});
+userRouter.post(
+  '/signup',
+  createUser,
+  generateJWT,
+  (req: Request, res: Response) => {
+    res
+      .cookie('access_token', res.locals.token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60,
+      })
+      .status(200)
+      .json(res.locals.user);
+  }
+);
 
-userRouter.post('/signin', loginUser, (req: Request, res: Response) => {
-  res.status(200).json(res.locals.user);
-});
+userRouter.post(
+  '/signin',
+  loginUser,
+  generateJWT,
+  (req: Request, res: Response) => {
+    res
+      .cookie('access_token', res.locals.token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60,
+      })
+      .status(200)
+      .json(res.locals.user);
+  }
+);
 
-userRouter.get('/gifts/:userId', getGifts, (req: Request, res: Response) => {
+userRouter.get('/gifts/:userId', verifyJWT, getGifts, (req: Request, res: Response) => {
   res.status(200).json(res.locals.gifts);
 });
 
-userRouter.post('/storegifts', storeGift, (req: Request, res: Response) => {
-  res.status(200).json(res.locals.gift);
-});
+userRouter.post(
+  '/storegifts',
+  verifyJWT,
+  storeGift,
+  (req: Request, res: Response) => {
+    res.status(200).json(res.locals.gift);
+  }
+);
 
-userRouter.patch('/updategift', updateGift, (req: Request, res: Response) => {
-  res.status(200).json(res.locals.updated);
-});
+userRouter.patch(
+  '/updategift',
+  verifyJWT,
+  updateGift,
+  (req: Request, res: Response) => {
+    res.status(200).json(res.locals.updated);
+  }
+);
 
-userRouter.delete('/deletegift/:giftId', deleteGift, (req: Request, res: Response) => {
-  res.status(200).json(res.locals.deleted);
+userRouter.delete(
+  '/deletegift',
+  verifyJWT,
+  deleteGift,
+  (req: Request, res: Response) => {
+    res.status(200).json(res.locals.deleted);
+  }
+);
+
+// User log out
+userRouter.delete('/logout', (req: Request, res: Response) => {
+  res.clearCookie('access_token').status(200).json('Sign out successfully');
 });
 
 export default userRouter;
