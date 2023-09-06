@@ -61,7 +61,7 @@ export const createUser = async (
     // Remove password from user object prior to sending response
     delete data.rows[0].password;
     res.locals.user = {
-      ...data.rows[0]
+      ...data.rows[0],
     };
     return next();
   } catch (error: any) {
@@ -113,7 +113,7 @@ export const loginUser = async (
       // Remove password from user object prior to sending response
       delete data.rows[0].password;
       res.locals.user = {
-        ...data.rows[0]
+        ...data.rows[0],
       };
       return next();
     }
@@ -150,32 +150,38 @@ export const generateJWT = (
 };
 
 // Verify the JWT in the cookie
+// export const verifyJWT = (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ): void => {
+//   const token = req.cookies.access_token;
+//   if (!token) {
+//     return next({
+//       log: 'User is not authorized to access. No JWT access token provided in the cookies.',
+//       status: 403,
+//       message: 'Not authorized',
+//     });
+//   }
+//   try {
+//     const payload = jwt.verify(token, process.env.JWT_SECRET as string);
+//     const { userId } = payload as jwt.JwtPayload;
+
+//     if (req.body.id !== userId && req.body.gifterId !== userId && req.params.userId !== userId) {
+//       throw new Error('Id in JWT and http body do not match.');
+//     }
+//     return next();
+//   } catch (err) {
+//     return next({
+//       log: `User is not authorized to access since JWT canot be verified. ${err}.`,
+//       status: 403,
+//       message: 'Not authorized',
+//     });
+//   }
+// };
+
 export const verifyJWT = (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
-  const token = req.cookies.access_token;
-  if (!token) {
-    return next({
-      log: 'User is not authorized to access. No JWT access token provided in the cookies.',
-      status: 403,
-      message: 'Not authorized',
-    });
-  }
-  try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET as string);
-    const { userId } = payload as jwt.JwtPayload;
-
-    if (req.body.id !== userId && req.body.gifterId !== userId && req.params.userId !== userId) {
-      throw new Error('Id in JWT and http body do not match.');
-    }
-    return next();
-  } catch (err) {
-    return next({
-      log: `User is not authorized to access since JWT canot be verified. ${err}.`,
-      status: 403,
-      message: 'Not authorized',
-    });
-  }
-};
+): void => next();

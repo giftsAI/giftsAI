@@ -1,20 +1,18 @@
-'use client'
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, createContext } from 'react';
 import type { User } from '../_static/types';
 
-
-const defaultUser : User = {
+const defaultUser: User = {
   user_id: 0,
   first_name: '',
   last_name: '',
-  email: ''
-}
+  email: '',
+};
 
 export const UserContext = createContext(defaultUser);
-
 
 export default function MainLayout({
   children,
@@ -33,9 +31,17 @@ export default function MainLayout({
   }, []);
 
   // to end session once logout button has been clicked
-  const logOut = () : void => {
+  const logOut = (): void => {
     localStorage.removeItem('userData');
     setUserData(defaultUser);
+    fetch(`http://localhost:3500/user/logout`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).catch((err) => {
+      if (err instanceof Error) console.log(err.message);
+    });
   };
 
   return (
@@ -87,9 +93,7 @@ export default function MainLayout({
           </div>
         )}
       </header>
-      <UserContext.Provider value={userData}>
-        {children}
-      </UserContext.Provider>
+      <UserContext.Provider value={userData}>{children}</UserContext.Provider>
     </main>
   );
 }

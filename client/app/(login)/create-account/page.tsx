@@ -28,13 +28,15 @@ function CreateAccountForm(): JSX.Element {
     try {
       const response = await fetch('http://localhost:3500/user/signup', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(user),
       });
 
-      if (response.status === 200) { // successful signup, log in user automatically
+      if (response.status === 200) {
+        // successful signup, log in user automatically
         console.log('successful response');
         const userData = await response.json();
         localStorage.setItem('userData', JSON.stringify(userData));
@@ -43,14 +45,16 @@ function CreateAccountForm(): JSX.Element {
       } else {
         setSubmissionStatus('Error');
       }
-    } catch (error) { // error in sign up
+    } catch (error) {
+      // error in sign up
       console.log(error);
       setSubmissionStatus('Error');
     }
   };
 
   useEffect(() => {
-    if (submissionStatus === 'Success') { // send to main page once succesfully signed in
+    if (submissionStatus === 'Success') {
+      // send to main page once succesfully signed in
       router.push('/');
     }
   }, [submissionStatus, router]);
@@ -111,12 +115,13 @@ function CreateAccountForm(): JSX.Element {
           </button>
         </div>
       </form>
-      {
-        submissionStatus === 'Error' ?
+      {submissionStatus === 'Error' ? (
         <div className="text-rose-500">
           Please review information and try again.
-        </div> : <></>
-      }
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

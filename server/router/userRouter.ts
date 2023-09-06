@@ -45,9 +45,14 @@ userRouter.post(
   }
 );
 
-userRouter.get('/gifts/:userId', verifyJWT, getGifts, (req: Request, res: Response) => {
-  res.status(200).json(res.locals.gifts);
-});
+userRouter.get(
+  '/gifts/:userId',
+  verifyJWT,
+  getGifts,
+  (req: Request, res: Response) => {
+    res.status(200).json(res.locals.gifts);
+  }
+);
 
 userRouter.post(
   '/storegifts',
@@ -68,7 +73,7 @@ userRouter.patch(
 );
 
 userRouter.delete(
-  '/deletegift',
+  '/deletegift/:giftId',
   verifyJWT,
   deleteGift,
   (req: Request, res: Response) => {

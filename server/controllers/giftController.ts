@@ -40,6 +40,12 @@ export const storeGift = async (
     gifterId,
   }: Gift = req.body;
 
+  // console.log(
+  //   'Date received in storeGift middleware:',
+  //   typeof date,
+  //   JSON.stringify(date)
+  // );
+
   const storeQuery = `
   INSERT INTO gifts (receiver, receiver_name, occasion, date, interest, budget, gift, gifter_id)
   VALUES ($1, $2, $3, $4, $5, $6, $7, $8)

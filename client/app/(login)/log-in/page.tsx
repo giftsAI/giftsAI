@@ -25,20 +25,23 @@ function LoginForm(): JSX.Element {
     try {
       const response = await fetch('http://localhost:3500/user/signin', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(userLogin),
       });
 
-      if (response.status === 200) { // successful login
+      if (response.status === 200) {
+        // successful login
         try {
           console.log('success');
           const userData = await response.json();
           localStorage.setItem('userData', JSON.stringify(userData));
           setTimeout(() => localStorage.removeItem('userData'), 1000 * 60 * 60);
           setSubmissionStatus('Success');
-        } catch (error) { // start of handling unsuccessful login 
+        } catch (error) {
+          // start of handling unsuccessful login
           setSubmissionStatus('Error');
         }
       } else if (response.status === 403) {
@@ -50,9 +53,10 @@ function LoginForm(): JSX.Element {
   };
 
   useEffect(() => {
-    if (submissionStatus === 'Success') { // successful login, direct to main page
+    if (submissionStatus === 'Success') {
+      // successful login, direct to main page
       router.push('/');
-    } 
+    }
   });
 
   return (
@@ -62,7 +66,7 @@ function LoginForm(): JSX.Element {
         className="flex flex-col gap-10 items-center justify-center"
       >
         <div className="w-auto">
-          <h2 className={`mb-3 text-2xl font-semibold`}>Email</h2>
+          <h2 className="mb-3 text-2xl font-semibold">Email</h2>
           <input
             placeholder="Enter email"
             className="border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-80  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30 transition-colors focus:outline-none focus:border-gray-500"
@@ -74,7 +78,7 @@ function LoginForm(): JSX.Element {
         </div>
 
         <div className="w-auto">
-          <h2 className={`mb-3 text-2xl font-semibold`}>Password</h2>
+          <h2 className="mb-3 text-2xl font-semibold">Password</h2>
           <input
             type="password"
             placeholder="Enter password"
@@ -95,12 +99,13 @@ function LoginForm(): JSX.Element {
           </button>
         </div>
       </form>
-      {
-        submissionStatus === 'Error'? 
+      {submissionStatus === 'Error' ? (
         <div className="text-rose-500">
           Invalid credentials. Please try again.
-        </div> : <></>
-      }
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
