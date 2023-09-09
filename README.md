@@ -49,27 +49,34 @@ JWT_SECRET={YOUR_JWT_SECRET_KEY}
 
 ## <b>Functionality / Features</b>
 
-### Feature 1
+### Main Page
 
-Description
+Users can enter preliminary details such as who the gift is for, the occasion, the recipient's interests, and their budget. This will help our AI provide the most suitable gift recommendations for the user.
 
-### Feature 2
+<img width="1569" alt="image" src="https://github.com/giftsAI/giftsAI/assets/28611254/047e5178-1696-4fb6-b926-8971d5cc375c">
 
-Description
+### Gift Recommendations
 
-### Feature 3
+GiftsAI will provide gift recommendations utilizing ChatGPT along with our specifically defined prompting to receive succint responses. DALL•E 2 is also integrated to provide AI-generated images to visually display what the gift recommendations look like.
 
-Description
+<img width="1593" alt="image" src="https://github.com/giftsAI/giftsAI/assets/28611254/71a0642c-a8b9-4e6f-aac8-e8298ffee0ec">
+
+### Saved Lists
+
+Users will also be able to view the past gift recommendations they saved for recipients by searching the recipient's name. Saved lists include recipient name, relationship, interest, budget, gift, and occasion date.
+
+<img width="1617" alt="image" src="https://github.com/giftsAI/giftsAI/assets/28611254/00286259-b164-41f7-803a-dab5cb478fb0">
+
 
 ## <b>Tech Stack</b>
 
 <div align="center">
 	<img width="50" src="https://user-images.githubusercontent.com/25181517/183890598-19a0ac2d-e88a-4005-a8df-1ee36782fde1.png" alt="TypeScript" title="TypeScript"/>
+	<img width="50" src="https://github.com/marwin1991/profile-technology-icons/assets/136815194/5f8c622c-c217-4649-b0a9-7e0ee24bd704" alt="Next.js" title="Next.js"/>
 	<img width="50" src="https://user-images.githubusercontent.com/25181517/202896760-337261ed-ee92-4979-84c4-d4b829c7355d.png" alt="Tailwind CSS" title="Tailwind CSS"/>
 	<img width="50" src="https://user-images.githubusercontent.com/25181517/183568594-85e280a7-0d7e-4d1a-9028-c8c2209e073c.png" alt="Node.js" title="Node.js"/>
-	<img width="50" src="https://user-images.githubusercontent.com/25181517/187955005-f4ca6f1a-e727-497b-b81b-93fb9726268e.png" alt="Jest" title="Jest"/>
-	<img width="50" src="https://github.com/marwin1991/profile-technology-icons/assets/136815194/5f8c622c-c217-4649-b0a9-7e0ee24bd704" alt="Next.js" title="Next.js"/>
 	<img width="50" src="https://user-images.githubusercontent.com/25181517/117208740-bfb78400-adf5-11eb-97bb-09072b6bedfc.png" alt="PostgreSQL" title="PostgreSQL"/>
+	<img width="50" src="https://user-images.githubusercontent.com/25181517/187955005-f4ca6f1a-e727-497b-b81b-93fb9726268e.png" alt="Jest" title="Jest"/>
 </div>
 
 ## <b>Contributing</b>
