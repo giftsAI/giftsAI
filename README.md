@@ -53,19 +53,25 @@ JWT_SECRET={YOUR_JWT_SECRET_KEY}
 
 Users can enter preliminary details such as who the gift is for, the occasion, the recipient's interests, and their budget. This will help our AI provide the most suitable gift recommendations for the user.
 
+
 <img width="1569" alt="image" src="https://github.com/giftsAI/giftsAI/assets/28611254/047e5178-1696-4fb6-b926-8971d5cc375c">
+
 
 ### Gift Recommendations
 
 GiftsAI will provide gift recommendations utilizing ChatGPT along with our specifically defined prompting to receive succint responses. DALL•E 2 is also integrated to provide AI-generated images to visually display what the gift recommendations look like.
 
+
 <img width="1593" alt="image" src="https://github.com/giftsAI/giftsAI/assets/28611254/71a0642c-a8b9-4e6f-aac8-e8298ffee0ec">
+
 
 ### Saved Lists
 
 Users will also be able to view the past gift recommendations they saved for recipients by searching the recipient's name. Saved lists include recipient name, relationship, interest, budget, gift, and occasion date.
 
+
 <img width="1617" alt="image" src="https://github.com/giftsAI/giftsAI/assets/28611254/00286259-b164-41f7-803a-dab5cb478fb0">
+
 
 
 ## <b>Tech Stack</b>
