@@ -2,7 +2,7 @@
   <h1 align="center"><b>Gifts AI</b></h1>
 </p>
 <h2 align="center">
-  Fill in 
+  AI assistance software for recommending gifts. 
 </h2>
   
 <!-- TABLE OF CONTENTS -->
@@ -60,7 +60,7 @@ Users can enter preliminary details such as who the gift is for, the occasion, t
 
 ### Gift Recommendations
 
-GiftsAI will provide gift recommendations utilizing ChatGPT along with our specifically defined prompting to receive succint responses. DALL•E 2 is also integrated to provide AI-generated images to visually display what the gift recommendations look like.
+GiftsAI will provide gift recommendations utilizing ChatGPT along with our specifically defined prompting to receive succinct responses. DALL•E 2 is also integrated to provide AI-generated images to visually display what the gift recommendations look like.
 <br />
 <br />
 <img width="1593" alt="image" src="https://github.com/giftsAI/giftsAI/assets/28611254/71a0642c-a8b9-4e6f-aac8-e8298ffee0ec">
@@ -89,7 +89,7 @@ Users will also be able to view the past gift recommendations they saved for rec
 
 ## <b>Contributing</b>
 
-As part of the open-source community, we'd like to welcome those who'd like to contribute to this product. We released WhereAbouts in hopes of helping developers efficiently onboard new codebases. If you found this project useful, feel free to give it a star to help increase the visibility of this product. If you found any issues with this product, please report them with the 'Issues' tab or submit a PR.
+As part of the open-source community, we'd like to welcome those who'd like to contribute to this product. We released Gifts AI in hopes of helping developers efficiently onboard new codebases. If you found this project useful, feel free to give it a star to help increase the visibility of this product. If you find any issues with this product, please report them with the 'Issues' tab or submit a PR.
 
 Thank you!
 
@@ -99,5 +99,7 @@ Thank you!
 
 ## <b>Meet Our Team</b>
 
+- David An • [LinkedIn](https://www.linkedin.com/in/david-h-an/) • [Github](https://github.com/davidan1989)
 - Ted Chu • [LinkedIn](https://www.linkedin.com/in/tedcchu/) • [Github](https://github.com/tcchu)
 - Yeong Sil Yoon • [LinkedIn](https://www.linkedin.com/in/yeong-sil-yoon/) • [Github](https://github.com/wendyys96)
+- Yi Sun  • [LinkedIn](https://www.linkedin.com/in/yi-sun-swe/) • [Github](https://github.com/YiSun88)
