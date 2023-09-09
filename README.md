@@ -26,16 +26,26 @@ Fill in
 
 ## <b>Installation / Getting Started</b>
 
-After following installation steps perform the following:
+Perform the following steps to install GiftAI locally:
 
-1. Step 1...
-
-Run commands:
+1. Clone this GiftAI repository onto your local machine.
+2. Open GiftAI repo in VS Code or your favorite IDE.
+3. Run the following command in the terminal. This will npm install node modules in the root, client, and server folders:
 
 ```
-npm run dev
+npm install && cd client && npm install && cd ../server && npm install
 ```
-   
+
+4. While in the server directory, create a new `.env` file and add your OpenAI API Key, PostgreSQL database URI and a JWT Secret (can be any string, to be used to sign JWTs) to the `.env` file like the example below:
+
+```
+OPENAI_API_KEY={YOUR_OPENAI_API_KEY}
+PG_URI={YOUR_POSTGRESQL_URI}
+JWT_SECRET={YOUR_JWT_SECRET_KEY}
+```
+
+5. Run `npm run dev` in both server and client directories to start the backend server and frontend.
+6. Visit `http://localhost:3000/` in your browser to start getting gift ideas!
 
 ## <b>Functionality / Features</b>
 
@@ -43,20 +53,17 @@ npm run dev
 
 Description
 
-
 ### Feature 2
 
 Description
-
 
 ### Feature 3
 
 Description
 
-
 ## <b>Tech Stack</b>
 
-- [TypeScript]( https://www.typescriptlang.org/)
+- [TypeScript](https://www.typescriptlang.org/)
 - [React](https://react.dev/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Node.js](https://nodejs.org)
@@ -76,4 +83,3 @@ Thank you!
 
 - Ted Chu • [LinkedIn](https://www.linkedin.com/in/tedcchu/) • [Github](https://github.com/tcchu)
 - Yeong Sil Yoon • [LinkedIn](https://www.linkedin.com/in/yeong-sil-yoon/) • [Github](https://github.com/wendyys96)
-
