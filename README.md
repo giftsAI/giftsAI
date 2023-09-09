@@ -21,15 +21,15 @@
 ## <b>Overview</b>
 
 <p align="left">
-Gifts AI is an AI-powered web application that provides users with gift recommendations based on: one's relationship to the receipient, the recipient's interest(s), the occasion and the user's desired budget. Therefore, each of the recommendations provided will be tailored to meet each user's gift-giving needs!
+Gifts AI is an AI-powered web application that provides users with gift recommendations based on: one's relationship to the recipient, the recipient's interest(s), the occasion and the user's desired budget. Therefore, each of the recommendations provided will be tailored to meet each user's gift-giving needs!
 </p>
 
 ## <b>Installation / Getting Started</b>
 
-Perform the following steps to install GiftAI locally:
+Perform the following steps to install Gifts AI locally:
 
-1. Clone this GiftAI repository onto your local machine.
-2. Open GiftAI repo in VS Code or your favorite IDE.
+1. Clone this Gifts AI repository onto your local machine.
+2. Open Gifts AI repo in VS Code or your favorite IDE.
 3. Run the following command in the terminal. This will npm install node modules in the root, client, and server folders:
 
 ```
@@ -60,7 +60,7 @@ Users can enter preliminary details such as who the gift is for, the occasion, t
 
 ### Gift Recommendations
 
-GiftsAI will provide gift recommendations utilizing ChatGPT along with our specifically defined prompting to receive succinct responses. DALL•E 2 is also integrated to provide AI-generated images to visually display what the gift recommendations look like.
+Gifts AI will provide gift recommendations utilizing ChatGPT along with our specifically defined prompting to receive succinct responses. DALL•E 2 is also integrated to provide AI-generated images to visually display what the gift recommendations look like.
 <br />
 <br />
 <img width="1593" alt="image" src="https://github.com/giftsAI/giftsAI/assets/28611254/71a0642c-a8b9-4e6f-aac8-e8298ffee0ec">
