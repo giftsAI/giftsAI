@@ -11,7 +11,8 @@
   <ol>
     <li><a href="#overview">Overview</a></li>
     <li><a href="#installation--getting-started">Installation / Getting Started</a></li>
-    <li><a href="#functionality">Functionality / Features</a></li>
+    <li><a href="#testing">Testing</a></li>
+    <li><a href="#functionality--features">Functionality / Features</a></li>
     <li><a href="#tech-stack">Tech Stack</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#meet-our-team">Meet our Team</a></li>
@@ -46,6 +47,9 @@ JWT_SECRET={YOUR_JWT_SECRET_KEY}
 
 5. Run `npm run dev` in both server and client directories to start the backend server and frontend.
 6. Visit `http://localhost:3000/` in your browser to start getting gift ideas!
+
+## <b>Testing</b>
+1. After installation per above section, run `npm run test` in server directory to run the build-in tests.
 
 ## <b>Functionality / Features</b>
 
